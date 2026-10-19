@@ -10,7 +10,7 @@ type EmbeddingsRequest struct {
 	// Model Model id to use for embeddings. Must match a model your account can access.
 	Model string `json:"model"`
 	// Input A single string or 1–2048 strings; each string produces one row in `data`, in order.
-	Input EmbeddingsRequestInput `json:"input"`
+	Input []string `json:"input"`
 	// User Optional end-user identifier to help with abuse monitoring.
 	User *string `json:"user,omitempty"`
 	// EncodingFormat How embedding values are returned in each `data[].embedding` field.
@@ -34,6 +34,9 @@ func (value *EmbeddingsRequest) UnmarshalJSON(data []byte) error {
 	if err := ValidateNotNull(rawFields, []string{"model", "input"}); err != nil {
 		return err
 	}
+	if err := ValidateItems("input", value.Input, LengthOpts{Min: Ptr[int](1), Max: Ptr[int](2048)}); err != nil {
+		return err
+	}
 	return nil
 }
 
@@ -42,53 +45,6 @@ func (value *EmbeddingsRequest) UnmarshalJSON(data []byte) error {
 // reported as *SdkValidationError.
 func NewEmbeddingsRequest(fields EmbeddingsRequest) (*EmbeddingsRequest, error) {
 	return ConstructModel(fields)
-}
-
-// EmbeddingsRequestInput represents a union type.
-type EmbeddingsRequestInput struct {
-	String       *string
-	ListOfString *[]string
-}
-
-func (u *EmbeddingsRequestInput) UnmarshalJSON(data []byte) error {
-	*u = EmbeddingsRequestInput{}
-	var refusal error
-	var s string
-	if err := json.Unmarshal(data, &s); err == nil {
-		u.String = &s
-		return nil
-	}
-	var listofstring []string
-	if err := json.Unmarshal(data, &listofstring); err == nil && isNonEmptyEmbeddingsRequestInputListOfString(listofstring) {
-		u.ListOfString = &listofstring
-		return nil
-	} else if _, refused := err.(*SdkValidationError); refused && refusal == nil {
-		refusal = err
-	}
-	return refusal
-}
-
-func (u EmbeddingsRequestInput) MarshalJSON() ([]byte, error) {
-	if u.String != nil {
-		return json.Marshal(u.String)
-	}
-	if u.ListOfString != nil {
-		return json.Marshal(u.ListOfString)
-	}
-	return []byte("null"), nil
-}
-
-func isNonEmptyEmbeddingsRequestInputListOfString(v []string) bool {
-	b, _ := json.Marshal(v)
-	return string(b) != "{}" && string(b) != "null"
-}
-
-// UnmarshalEmbeddingsRequestInput converts an untyped value to EmbeddingsRequestInput.
-func UnmarshalEmbeddingsRequestInput(v any) EmbeddingsRequestInput {
-	b, _ := json.Marshal(v)
-	var result EmbeddingsRequestInput
-	_ = json.Unmarshal(b, &result)
-	return result
 }
 
 // EmbeddingsRequestEncodingFormatEnum How embedding values are returned in each `data[].embedding` field.

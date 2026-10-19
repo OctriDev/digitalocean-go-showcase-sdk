@@ -1105,7 +1105,9 @@
         ],
         "ToolChoice": "none",
         "Stream": false,
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -1297,7 +1299,9 @@
         ],
         "ToolChoice": "none",
         "Stream": false,
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -1417,7 +1421,9 @@
           }
         ],
         "ToolChoice": "none",
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -78988,7 +78994,9 @@
         ],
         "ToolChoice": "none",
         "Stream": false,
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -79177,7 +79185,9 @@
         ],
         "ToolChoice": "none",
         "Stream": false,
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -79294,7 +79304,9 @@
           }
         ],
         "ToolChoice": "none",
-        "Stop": "stop",
+        "Stop": [
+          "stop"
+        ],
         "LogitBias": null,
         "Logprobs": false,
         "N": 1,
@@ -79448,7 +79460,10 @@
       "owner": null,
       "arguments": {
         "Model": "qwen3-embedding-0.6b",
-        "Input": "hello world",
+        "Input": [
+          "hello world",
+          "goodbye world"
+        ],
         "User": "user-1234",
         "EncodingFormat": "float"
       },
@@ -79499,7 +79514,10 @@
       "owner": null,
       "arguments": {
         "Model": "qwen3-embedding-0.6b",
-        "Input": "hello world",
+        "Input": [
+          "hello world",
+          "goodbye world"
+        ],
         "User": "user-1234",
         "EncodingFormat": "float"
       },
