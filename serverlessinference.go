@@ -16,7 +16,7 @@ type InferenceCreateChatCompletionParams struct {
 	Tools               *[]ChatCompletionTool
 	ToolChoice          *ChatCompletionRequestToolChoice
 	Stream              *NullableValue[bool]
-	Stop                *any
+	Stop                *[]string
 	LogitBias           *NullableValue[map[string]int64]
 	Logprobs            *NullableValue[bool]
 	N                   *NullableValue[int64]
@@ -156,6 +156,12 @@ func InferenceCreateChatCompletion(ctx context.Context, clientConfig ClientConfi
 		}
 	}
 
+	if stop != nil {
+		if err := ValidateItems("stop", *stop, LengthOpts{Min: Ptr[int](1), Max: Ptr[int](4)}); err != nil {
+			return nil, err
+		}
+	}
+
 	if n != nil && n.Value != nil {
 		if err := ValidateRange("n", *n.Value, RangeOpts{Min: Ptr[float64](1), Max: Ptr[float64](128)}); err != nil {
 			return nil, err
@@ -278,7 +284,7 @@ func InferenceCreateChatCompletion(ctx context.Context, clientConfig ClientConfi
 //	both.
 //	user: A unique identifier representing your end-user, which can help
 //	DigitalOcean to monitor and detect abuse.
-func InferenceCreateChatCompletionStream(ctx context.Context, clientConfig ClientConfig, messages []ChatMessage, model string, stream NullableValue[bool], maxTokens *NullableValue[int64], maxCompletionTokens *NullableValue[int64], frequencyPenalty *NullableValue[float64], presencePenalty *NullableValue[float64], topLogprobs *NullableValue[int64], tools *[]ChatCompletionTool, toolChoice *ChatCompletionRequestToolChoice, stop *any, logitBias *NullableValue[map[string]int64], logprobs *NullableValue[bool], n *NullableValue[int64], streamOptions *NullableValue[ChatCompletionRequestStreamOptions], reasoningEffort *NullableValue[string], seed *NullableValue[int64], metadata *NullableValue[map[string]string], temperature *NullableValue[float64], topP *NullableValue[float64], user *string, opts ...RequestOption) (<-chan ChatCompletionChunk, <-chan error) {
+func InferenceCreateChatCompletionStream(ctx context.Context, clientConfig ClientConfig, messages []ChatMessage, model string, stream NullableValue[bool], maxTokens *NullableValue[int64], maxCompletionTokens *NullableValue[int64], frequencyPenalty *NullableValue[float64], presencePenalty *NullableValue[float64], topLogprobs *NullableValue[int64], tools *[]ChatCompletionTool, toolChoice *ChatCompletionRequestToolChoice, stop *[]string, logitBias *NullableValue[map[string]int64], logprobs *NullableValue[bool], n *NullableValue[int64], streamOptions *NullableValue[ChatCompletionRequestStreamOptions], reasoningEffort *NullableValue[string], seed *NullableValue[int64], metadata *NullableValue[map[string]string], temperature *NullableValue[float64], topP *NullableValue[float64], user *string, opts ...RequestOption) (<-chan ChatCompletionChunk, <-chan error) {
 	return StreamTypedCfgWithFormat[ChatCompletionChunk](ctx, &clientConfig, "POST", "/v1/chat/completions", &RequestOpts{
 		Body: map[string]any{
 			"messages":              messages,
@@ -467,7 +473,7 @@ func InferenceCreateMessagesStream(ctx context.Context, clientConfig ClientConfi
 
 type InferenceCreateEmbeddingParams struct {
 	Model          string
-	Input          any
+	Input          []string
 	User           *string
 	EncodingFormat *string
 }
@@ -488,6 +494,10 @@ func InferenceCreateEmbedding(ctx context.Context, clientConfig ClientConfig, pa
 	input := params.Input
 	user := params.User
 	encodingFormat := params.EncodingFormat
+
+	if err := ValidateItems("input", input, LengthOpts{Min: Ptr[int](1), Max: Ptr[int](2048)}); err != nil {
+		return nil, err
+	}
 
 	resp, err := DoCfg[EmbeddingsResponse](ctx, &clientConfig, "POST", "/v1/embeddings", &RequestOpts{
 		Body: map[string]any{
@@ -715,20 +725,4 @@ func InferenceCreateSystemone(ctx context.Context, clientConfig ClientConfig, pa
 		return nil, err
 	}
 	return &resp.Data, nil
-}
-
-type InferenceCreateResponseParams struct {
-	Model           string
-	Input           any
-	MaxOutputTokens *NullableValue[int64]
-	Temperature     *NullableValue[float64]
-	Stream          *NullableValue[bool]
-	Instructions    *NullableValue[string]
-	TopP            *NullableValue[float64]
-	StreamOptions   *NullableValue[CreateResponseRequestStreamOptions]
-	Tools           *NullableValue[[]CreateResponseRequestTools]
-	ToolChoice      *CreateResponseRequestToolChoice
-	Stop            *any
-	Metadata        *NullableValue[map[string]string]
-	User            *NullableValue[string]
 }
