@@ -8,59 +8,6 @@ import (
 	"encoding/json"
 )
 
-func (value *ChatCompletionResponseChoicesLogprobs) UnmarshalJSON(data []byte) error {
-	type ChatCompletionResponseChoicesLogprobsAlias ChatCompletionResponseChoicesLogprobs
-	var decoded ChatCompletionResponseChoicesLogprobsAlias
-	if err := json.Unmarshal(data, &decoded); err != nil {
-		return err
-	}
-	*value = ChatCompletionResponseChoicesLogprobs(decoded)
-	var rawFields map[string]json.RawMessage
-	if err := json.Unmarshal(data, &rawFields); err != nil {
-		return err
-	}
-	if err := ValidateRequired(rawFields, []string{"content", "refusal"}); err != nil {
-		return err
-	}
-	return nil
-}
-
-// NewChatCompletionResponseChoicesLogprobs returns a validated ChatCompletionResponseChoicesLogprobs built from named fields.
-// Optional fields may be left unset; a value that violates the schema is
-// reported as *SdkValidationError.
-func NewChatCompletionResponseChoicesLogprobs(fields ChatCompletionResponseChoicesLogprobs) (*ChatCompletionResponseChoicesLogprobs, error) {
-	return ConstructModel(fields)
-}
-
-// ChatCompletionResponseObjectEnum The object type, which is always chat.completion.
-type ChatCompletionResponseObjectEnum string
-
-const (
-	ChatCompletionResponseObjectEnumChatCompletion ChatCompletionResponseObjectEnum = "chat.completion"
-)
-
-// ChatCompletionToolCallChunk Typed representation of the `ChatCompletionToolCallChunk` API schema.
-type ChatCompletionToolCallChunk struct {
-	// Index Optional `integer` value serialized in the `index` wire field.
-	Index *int64 `json:"index,omitempty"`
-	// Id The ID of the tool call.
-	Id *string `json:"id,omitempty"`
-	// Type Optional enumerated value serialized in the `type` wire field.
-	Type *ChatCompletionToolCallChunkTypeEnum `json:"type,omitempty"`
-	// Function Optional object value serialized in the `function` wire field.
-	Function *ChatCompletionToolCallChunkFunction `json:"function,omitempty"`
-}
-
-// NewChatCompletionToolCallChunk returns a validated ChatCompletionToolCallChunk built from named fields.
-// Optional fields may be left unset; a value that violates the schema is
-// reported as *SdkValidationError.
-func NewChatCompletionToolCallChunk(fields ChatCompletionToolCallChunk) (*ChatCompletionToolCallChunk, error) {
-	return ConstructModel(fields)
-}
-
-// ChatCompletionToolCallChunkTypeEnum Optional enumerated value serialized in the `type` wire field.
-type ChatCompletionToolCallChunkTypeEnum string
-
 const (
 	ChatCompletionToolCallChunkTypeEnumFunction ChatCompletionToolCallChunkTypeEnum = "function"
 )

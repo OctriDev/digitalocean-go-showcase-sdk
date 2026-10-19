@@ -8,6 +8,22 @@ import (
 	"fmt"
 )
 
+type InferenceCreateResponseParams struct {
+	Model           string
+	Input           any
+	MaxOutputTokens *NullableValue[int64]
+	Temperature     *NullableValue[float64]
+	Stream          *NullableValue[bool]
+	Instructions    *NullableValue[string]
+	TopP            *NullableValue[float64]
+	StreamOptions   *NullableValue[CreateResponseRequestStreamOptions]
+	Tools           *NullableValue[[]CreateResponseRequestTools]
+	ToolChoice      *CreateResponseRequestToolChoice
+	Stop            *NullableValue[[]string]
+	Metadata        *NullableValue[map[string]string]
+	User            *NullableValue[string]
+}
+
 // InferenceCreateResponse generate text responses from text prompts. This endpoint supports both streaming and non-streaming responses for supported text models.
 //
 // Parameters:
@@ -67,6 +83,12 @@ func InferenceCreateResponse(ctx context.Context, clientConfig ClientConfig, par
 		}
 	}
 
+	if stop != nil && stop.Value != nil {
+		if err := ValidateItems("stop", *stop.Value, LengthOpts{Min: Ptr[int](1), Max: Ptr[int](4)}); err != nil {
+			return nil, err
+		}
+	}
+
 	resp, err := DoCfg[CreateResponseResponse](ctx, &clientConfig, "POST", "/v1/responses", &RequestOpts{
 		Body: map[string]any{
 			"model":             model,
@@ -119,7 +141,7 @@ func InferenceCreateResponse(ctx context.Context, clientConfig ClientConfig, par
 //	stop: Up to 4 sequences where the API will stop generating further tokens.
 //	metadata: Set of key-value pairs that can be attached to the request.
 //	user: A unique identifier representing your end-user.
-func InferenceCreateResponseStream(ctx context.Context, clientConfig ClientConfig, model string, input any, stream NullableValue[bool], maxOutputTokens *NullableValue[int64], temperature *NullableValue[float64], instructions *NullableValue[string], topP *NullableValue[float64], streamOptions *NullableValue[CreateResponseRequestStreamOptions], tools *NullableValue[[]CreateResponseRequestTools], toolChoice *CreateResponseRequestToolChoice, stop *any, metadata *NullableValue[map[string]string], user *NullableValue[string], opts ...RequestOption) (<-chan CreateResponseStreamResponse, <-chan error) {
+func InferenceCreateResponseStream(ctx context.Context, clientConfig ClientConfig, model string, input any, stream NullableValue[bool], maxOutputTokens *NullableValue[int64], temperature *NullableValue[float64], instructions *NullableValue[string], topP *NullableValue[float64], streamOptions *NullableValue[CreateResponseRequestStreamOptions], tools *NullableValue[[]CreateResponseRequestTools], toolChoice *CreateResponseRequestToolChoice, stop *NullableValue[[]string], metadata *NullableValue[map[string]string], user *NullableValue[string], opts ...RequestOption) (<-chan CreateResponseStreamResponse, <-chan error) {
 	return StreamTypedCfgWithFormat[CreateResponseStreamResponse](ctx, &clientConfig, "POST", "/v1/responses", &RequestOpts{
 		Body: map[string]any{
 			"model":             model,
