@@ -416,14 +416,14 @@ func (sdk *DropletsNamespace) GetBackupPolicy(ctx context.Context, params Drople
 	return DropletsGetBackupPolicy(ctx, sdk.config, params, opts...)
 }
 
-// ListBackupPolicies to list information about the backup policies for all Droplets in the account, send a GET request to `/v2/droplets/backups/policies`.
+// ListAllBackupPolicies to list information about the backup policies for all Droplets in the account, send a GET request to `/v2/droplets/backups/policies`.
 //
 // Parameters:
 //
 //	perPage: Number of items returned per page
 //	page: Which 'page' of paginated results to return.
-func (sdk *DropletsNamespace) ListBackupPolicies(ctx context.Context, params DropletsListBackupPoliciesParams, opts ...RequestOption) (*AllDropletBackupPolicies, error) {
-	return DropletsListBackupPolicies(ctx, sdk.config, params, opts...)
+func (sdk *DropletsNamespace) ListAllBackupPolicies(ctx context.Context, params ListAllBackupPoliciesParams, opts ...RequestOption) (*AllDropletBackupPolicies, error) {
+	return ListAllBackupPolicies(ctx, sdk.config, params, opts...)
 }
 
 // ListSupportedBackupPolicies to retrieve a list of all supported Droplet backup policies, send a GET request to `/v2/droplets/backups/supported_policies`.

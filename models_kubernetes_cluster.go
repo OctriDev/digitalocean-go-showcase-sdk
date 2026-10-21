@@ -674,3 +674,72 @@ type ClusterUpdateRequest struct {
 	// CorednsAutoscaler An object specifying whether the Cluster Proportional Autoscaler (CPA) add-on for CoreDNS should be enabled for the Kubernetes cluster.
 	CorednsAutoscaler *NullableValue[CorednsAutoscaler] `json:"coredns_autoscaler,omitempty"`
 }
+
+func (value *ClusterUpdateRequest) UnmarshalJSON(data []byte) error {
+	type ClusterUpdateRequestAlias ClusterUpdateRequest
+	var decoded ClusterUpdateRequestAlias
+	if err := json.Unmarshal(data, &decoded); err != nil {
+		return err
+	}
+	*value = ClusterUpdateRequest(decoded)
+	var rawFields map[string]json.RawMessage
+	if err := json.Unmarshal(data, &rawFields); err != nil {
+		return err
+	}
+	if err := ValidateRequired(rawFields, []string{"name"}); err != nil {
+		return err
+	}
+	if err := ValidateNotNull(rawFields, []string{"name"}); err != nil {
+		return err
+	}
+	if raw, ok := rawFields["maintenance_policy"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.MaintenancePolicy = &NullableValue[MaintenancePolicyRequest]{}
+	}
+	if raw, ok := rawFields["control_plane_firewall"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.ControlPlaneFirewall = &NullableValue[ControlPlaneFirewall]{}
+	}
+	if raw, ok := rawFields["cluster_autoscaler_configuration"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.ClusterAutoscalerConfiguration = &NullableValue[ClusterAutoscalerConfiguration]{}
+	}
+	if raw, ok := rawFields["sso"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.Sso = &NullableValue[Sso]{}
+	}
+	if raw, ok := rawFields["routing_agent"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.RoutingAgent = &NullableValue[RoutingAgent]{}
+	}
+	if raw, ok := rawFields["p2p_oci_registry_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.P2pOciRegistryPlugin = &NullableValue[P2pOciRegistryPlugin]{}
+	}
+	if raw, ok := rawFields["nfs_csi_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.NfsCsiPlugin = &NullableValue[NfsCsiPlugin]{}
+	}
+	if raw, ok := rawFields["amd_gpu_device_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.AmdGpuDevicePlugin = &NullableValue[AmdGpuDevicePlugin]{}
+	}
+	if raw, ok := rawFields["amd_gpu_device_metrics_exporter_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.AmdGpuDeviceMetricsExporterPlugin = &NullableValue[AmdGpuDeviceMetricsExporterPlugin]{}
+	}
+	if raw, ok := rawFields["nvidia_gpu_device_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.NvidiaGpuDevicePlugin = &NullableValue[NvidiaGpuDevicePlugin]{}
+	}
+	if raw, ok := rawFields["nvidia_gpu_dra_driver"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.NvidiaGpuDraDriver = &NullableValue[NvidiaGpuDraDriver]{}
+	}
+	if raw, ok := rawFields["amd_gpu_dra_driver"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.AmdGpuDraDriver = &NullableValue[AmdGpuDraDriver]{}
+	}
+	if raw, ok := rawFields["rdma_shared_dev_plugin"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.RdmaSharedDevPlugin = &NullableValue[RdmaSharedDevPlugin]{}
+	}
+	if raw, ok := rawFields["coredns_autoscaler"]; ok && bytes.Equal(bytes.TrimSpace(raw), []byte("null")) {
+		value.CorednsAutoscaler = &NullableValue[CorednsAutoscaler]{}
+	}
+	return nil
+}
+
+// NewClusterUpdateRequest returns a validated ClusterUpdateRequest built from named fields.
+// Optional fields may be left unset; a value that violates the schema is
+// reported as *SdkValidationError.
+func NewClusterUpdateRequest(fields ClusterUpdateRequest) (*ClusterUpdateRequest, error) {
+	return ConstructModel(fields)
+}
