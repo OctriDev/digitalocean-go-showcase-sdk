@@ -244,18 +244,18 @@ func DropletsGetBackupPolicy(ctx context.Context, clientConfig ClientConfig, par
 	return &resp.Data, nil
 }
 
-type DropletsListBackupPoliciesParams struct {
+type ListAllBackupPoliciesParams struct {
 	PerPage *int64
 	Page    *int64
 }
 
-// DropletsListBackupPolicies to list information about the backup policies for all Droplets in the account, send a GET request to `/v2/droplets/backups/policies`.
+// ListAllBackupPolicies to list information about the backup policies for all Droplets in the account, send a GET request to `/v2/droplets/backups/policies`.
 //
 // Parameters:
 //
 //	perPage: Number of items returned per page
 //	page: Which 'page' of paginated results to return.
-func DropletsListBackupPolicies(ctx context.Context, clientConfig ClientConfig, params DropletsListBackupPoliciesParams, opts ...RequestOption) (*AllDropletBackupPolicies, error) {
+func ListAllBackupPolicies(ctx context.Context, clientConfig ClientConfig, params ListAllBackupPoliciesParams, opts ...RequestOption) (*AllDropletBackupPolicies, error) {
 	perPage := params.PerPage
 	page := params.Page
 
@@ -276,7 +276,7 @@ func DropletsListBackupPolicies(ctx context.Context, clientConfig ClientConfig, 
 			"per_page": QueryValue{Value: perPage, Style: "form", Explode: true},
 			"page":     QueryValue{Value: page, Style: "form", Explode: true},
 		},
-		OperationID: "DropletsListBackupPolicies",
+		OperationID: "ListAllBackupPolicies",
 		Errors:      ErrorDecoders{"401": decodeErrorData[Error2], "404": decodeErrorData[Error2], "429": decodeErrorData[Error2], "500": decodeErrorData[Error2], "default": decodeErrorData[Error2]},
 		Options:     opts,
 	})

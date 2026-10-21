@@ -21921,104 +21921,6 @@
       }
     },
     {
-      "id": "droplets_list_backup_policies:DropletsListBackupPolicies",
-      "operationId": "droplets_list_backup_policies",
-      "methodName": "DropletsListBackupPolicies",
-      "namespace": [
-        "droplets"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "PerPage": 2,
-        "Page": 1
-      },
-      "wireNames": {
-        "PerPage": "per_page",
-        "Page": "page"
-      },
-      "argumentOrder": [
-        "PerPage",
-        "Page"
-      ],
-      "response": {
-        "kind": "json",
-        "expected": {
-          "policies": {
-            "436444618": {
-              "droplet_id": 436444618,
-              "backup_enabled": false
-            },
-            "444909314": {
-              "droplet_id": 444909314,
-              "backup_enabled": true,
-              "backup_policy": {
-                "plan": "daily",
-                "hour": 20,
-                "window_length_hours": 4,
-                "retention_period_days": 7
-              },
-              "next_backup_window": {
-                "start": "2024-09-13T20:00:00Z",
-                "end": "2024-09-14T00:00:00Z"
-              }
-            },
-            "444909706": {
-              "droplet_id": 444909706,
-              "backup_enabled": true,
-              "backup_policy": {
-                "plan": "weekly",
-                "weekday": "SUN",
-                "hour": 20,
-                "window_length_hours": 4,
-                "retention_period_days": 28
-              },
-              "next_backup_window": {
-                "start": "2024-09-15T20:00:00Z",
-                "end": "2024-09-16T00:00:00Z"
-              }
-            }
-          },
-          "links": {},
-          "meta": {
-            "total": 3
-          }
-        },
-        "byteLength": 0
-      }
-    },
-    {
-      "id": "droplets_list_backup_policies:DropletsListBackupPolicies:401",
-      "operationId": "droplets_list_backup_policies",
-      "methodName": "DropletsListBackupPolicies",
-      "namespace": [
-        "droplets"
-      ],
-      "mode": "normal",
-      "owner": null,
-      "arguments": {
-        "PerPage": 2,
-        "Page": 1
-      },
-      "wireNames": {
-        "PerPage": "per_page",
-        "Page": "page"
-      },
-      "argumentOrder": [
-        "PerPage",
-        "Page"
-      ],
-      "response": {
-        "kind": "error",
-        "status": 401,
-        "expected": {
-          "id": "unauthorized",
-          "message": "Unable to authenticate you."
-        },
-        "byteLength": 0
-      }
-    },
-    {
       "id": "droplets_list_backups:DropletsListBackups",
       "operationId": "droplets_list_backups",
       "methodName": "DropletsListBackups",
@@ -88299,6 +88201,104 @@
       "argumentOrder": [
         "ClusterId",
         "Version"
+      ],
+      "response": {
+        "kind": "error",
+        "status": 401,
+        "expected": {
+          "id": "unauthorized",
+          "message": "Unable to authenticate you."
+        },
+        "byteLength": 0
+      }
+    },
+    {
+      "id": "listAllBackupPolicies:ListAllBackupPolicies",
+      "operationId": "listAllBackupPolicies",
+      "methodName": "ListAllBackupPolicies",
+      "namespace": [
+        "droplets"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "PerPage": 2,
+        "Page": 1
+      },
+      "wireNames": {
+        "PerPage": "per_page",
+        "Page": "page"
+      },
+      "argumentOrder": [
+        "PerPage",
+        "Page"
+      ],
+      "response": {
+        "kind": "json",
+        "expected": {
+          "policies": {
+            "436444618": {
+              "droplet_id": 436444618,
+              "backup_enabled": false
+            },
+            "444909314": {
+              "droplet_id": 444909314,
+              "backup_enabled": true,
+              "backup_policy": {
+                "plan": "daily",
+                "hour": 20,
+                "window_length_hours": 4,
+                "retention_period_days": 7
+              },
+              "next_backup_window": {
+                "start": "2024-09-13T20:00:00Z",
+                "end": "2024-09-14T00:00:00Z"
+              }
+            },
+            "444909706": {
+              "droplet_id": 444909706,
+              "backup_enabled": true,
+              "backup_policy": {
+                "plan": "weekly",
+                "weekday": "SUN",
+                "hour": 20,
+                "window_length_hours": 4,
+                "retention_period_days": 28
+              },
+              "next_backup_window": {
+                "start": "2024-09-15T20:00:00Z",
+                "end": "2024-09-16T00:00:00Z"
+              }
+            }
+          },
+          "links": {},
+          "meta": {
+            "total": 3
+          }
+        },
+        "byteLength": 0
+      }
+    },
+    {
+      "id": "listAllBackupPolicies:ListAllBackupPolicies:401",
+      "operationId": "listAllBackupPolicies",
+      "methodName": "ListAllBackupPolicies",
+      "namespace": [
+        "droplets"
+      ],
+      "mode": "normal",
+      "owner": null,
+      "arguments": {
+        "PerPage": 2,
+        "Page": 1
+      },
+      "wireNames": {
+        "PerPage": "per_page",
+        "Page": "page"
+      },
+      "argumentOrder": [
+        "PerPage",
+        "Page"
       ],
       "response": {
         "kind": "error",

@@ -422,8 +422,6 @@ func sdkMethodByName(name string) any {
 		return DropletsList
 	case "DropletsListAssociatedResources":
 		return DropletsListAssociatedResources
-	case "DropletsListBackupPolicies":
-		return DropletsListBackupPolicies
 	case "DropletsListBackups":
 		return DropletsListBackups
 	case "DropletsListFirewalls":
@@ -1090,6 +1088,8 @@ func sdkMethodByName(name string) any {
 		return KubernetesUpdateNodePool
 	case "KubernetesUpgradeCluster":
 		return KubernetesUpgradeCluster
+	case "ListAllBackupPolicies":
+		return ListAllBackupPolicies
 	case "LoadBalancersAddDroplets":
 		return LoadBalancersAddDroplets
 	case "LoadBalancersAddForwardingRules":
